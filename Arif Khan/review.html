@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews - WebMark Agency.it</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #0d0b1a; 
+            color: #ffffff;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Header Styles --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 5%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(13, 11, 26, 0.95); /* Slightly darker for mobile overlay */
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* Hamburger Menu Icon (Hidden on Desktop) */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            z-index: 101;
+        }
+
+        .menu-toggle .bar {
+            width: 25px;
+            height: 2px;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #a0a0b0;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: #ffffff;
+        }
+
+        .get-started-btn {
+            background: linear-gradient(135deg, #b886c5, #8a6db5);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            text-align: center;
+        }
+
+        .get-started-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* --- Main Review Section Styles --- */
+        main {
+            flex: 1;
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ffffff, #b886c5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header p {
+            color: #a0a0b0;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 30px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(184, 134, 197, 0.4);
+        }
+
+        .stars {
+            color: #ffb400;
+            font-size: 18px;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .review-text {
+            color: #d1d1e0;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .client-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .client-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3a2e5d, #1a1630);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #b886c5;
+            font-size: 18px;
+        }
+
+        .client-details h4 {
+            font-size: 15px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .client-details span {
+            font-size: 13px;
+            color: #7a7a8c;
+        }
+
+        .more-reviews-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .fiverr-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .fiverr-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #1dbf73; 
+        }
+
+        .fiverr-icon {
+            color: #1dbf73;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* --- Footer Styles --- */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(13, 11, 26, 0.9);
+        }
+
+        .footer-logo {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-copyright {
+            color: #7a7a8c;
+            font-size: 14px;
+        }
+
+        .footer-links a {
+            color: #a0a0b0;
+            text-decoration: none;
+            font-size: 14px;
+            margin-left: 25px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        /* =========================================
+           Mobile Responsive Styles 
+           ========================================= */
+        @media (max-width: 768px) {
+            header {
+                padding: 20px 5%;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-container {
+                display: none; /* Hidden by default on mobile */
+                flex-direction: column;
+                align-items: flex-start;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: #0b0914; /* Match image background */
+                padding: 30px 5%;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            }
+
+            /* Active class toggled by JS */
+            .nav-container.active {
+                display: flex;
+            }
+
+            nav {
+                width: 100%;
+                margin-bottom: 25px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 25px;
+                width: 100%;
+            }
+
+            nav a {
+                display: block;
+                width: 100%;
+                font-size: 16px;
+            }
+
+            .get-started-btn {
+                width: 100%;
+                padding: 15px;
+                font-size: 16px;
+            }
+
+            /* Hamburger Animation */
+            .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+            .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+            .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+            /* Other Responsive Fixes */
+            .section-header h1 {
+                font-size: 32px;
+            }
+            
+            footer {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .footer-links a {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">WebMark Agency.it</div>
+        
+        <!-- Hamburger Menu -->
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <!-- Navigation Container -->
+        <div class="nav-container" id="nav-container">
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="protfolio.html">Protfolio</a></li> <!-- Spelled exactly as your screenshot -->
+                    <li><a href="#" class="active">Review</a></li>
+                </ul>
+            </nav>
+            
+        </div>
+    </header>
+
+    <main>
+        <div class="section-header">
+            <h1>What Our Clients Say</h1>
+            <p>Read honest reviews from our satisfied clients all over the world.</p>
+        </div>
+
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p class="review-text">"Rafi did an incredible job with our YouTube SEO. Our channel's impressions and CTR skyrocketed within just two weeks! Highly recommend his digital marketing expertise."</p>
+                <div class="client-info">
+                    <div class="client-avatar">D</div>
+                    <div class="client-details">
+                        <h4>David M.</h4>
+                        <span>United States</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p class="review-text">"Excellent communication and premium service. The WebMark Agency team helped me rank my target keywords effectively. Will definitely order again!"</p>
+                <div class="client-info">
+                    <div class="client-avatar">S</div>
+                    <div class="client-details">
+                        <h4>Sarah L.</h4>
+                        <span>United Kingdom</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p class="review-text">"Top-notch performance-driven marketing. They understood exactly what my brand needed to scale. Very professional and delivered before the deadline."</p>
+                <div class="client-info">
+                    <div class="client-avatar">M</div>
+                    <div class="client-details">
+                        <h4>Michael R.</h4>
+                        <span>Canada</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p class="review-text">"Outstanding results! The SEO audit was very detailed, and the implementation was flawless. Best agency I've worked with on Fiverr so far."</p>
+                <div class="client-info">
+                    <div class="client-avatar">J</div>
+                    <div class="client-details">
+                        <h4>Jessica T.</h4>
+                        <span>Australia</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="more-reviews-container">
+            <!-- Replace with your actual Fiverr URL -->
+            <a href="https://www.fiverr.com/your_username" target="_blank" class="fiverr-btn">
+                <span class="fiverr-icon">fi</span> See More Reviews on Fiverr
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-logo">WEBMARK AGENCY.IT</div>
+        <div class="footer-copyright">© 2026 WEBMARK AGENCY.IT. All rights reserved.</div>
+        <div class="footer-links">
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navContainer = document.getElementById('nav-container');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('is-active');
+            navContainer.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
